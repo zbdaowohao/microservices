@@ -1,0 +1,62 @@
+server:
+  port: 8008
+dubbo:
+  application:
+    name: nacos-provider
+        #用于运维的监控服务， 默认是开启状态，并且端口是22222。开发环境为了避免端口冲突，建议直接关掉
+    qos-enable: false
+    qos-accept-foreign-ip: false
+     # 设置协议-协议由提供方指定消费方被动接受
+  protocol:
+    name: dubbo
+    port: 8998
+  scan:
+    base-packages: com.ads.provider.impl
+  registry:
+    id: nacos-provider
+    address: nacos://127.0.0.1:8848?namespace=42e2b200-fbef-4b2c-bfad-f70fc4094f68
+
+spring:
+  application:
+    name: nacos-provider
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+#      sentinel:
+#        eager: true
+#        transport:
+#          dashboard: 127.0.0.1:8080
+      discovery:
+        server-addr: 127.0.0.1:8848 #配置Nacos地址
+        namespace: 42e2b200-fbef-4b2c-bfad-f70fc4094f68
+        group: PROVIDER_GROUP
+  datasource:
+    url: jdbc:mysql://localhost:3306/project?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2b8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:postgresql://192.168.198.171:5432/dp_system
+#    driver-class-name: org.postgresql.Driver
+    username: root
+    password: 610547
+    show-sql: true
+    type: com.alibaba.druid.pool.DruidDataSource
+   
+#Spring Boot 应用支持通过 Endpoint 来暴露相关信息，需要在 maven 中添加 spring-boot-starter-actuator依赖
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"   
+    
+mybatis-plus: 
+  mapper-locations: classpath*:/mybatis/*.xml
+  type-aliases-package: com.ads.api.entity
+  configuration:
+        #是否开启自动驼峰命名规则
+    map-underscore-to-camel-case: true
+        #如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
+    call-setters-on-nulls: false
+        
+logging: 
+  config: classpath:logback-spring.xml
+  path: logs/

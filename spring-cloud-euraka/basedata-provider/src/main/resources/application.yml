@@ -1,0 +1,47 @@
+server:
+  port: 8001
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true     #访问路径可以显示IP地址
+spring:
+  application:
+    name: basedata-provider
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/microservicecloud?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: root
+      password: 610547
+      ##最大链接数
+      max-active: 20
+      ##初始化大小
+      initial-size: 5
+      ##获取连接最大等待时间
+      max-wait: 6000
+      ##检查连接有效执行的sql
+      validation-query: select 1
+      ##多久检测关闭空连接
+      time-between-eviction-runs-millis: 60000
+      ##当前连接的最后活跃时间和当前时间的差如果大于则关闭当前连接
+      min-evictable-idle-time-millis: 300000
+      ##申请链接检查是否有效
+      test-on-borrow: true
+      ##归还连接查看是否有效
+      test-on-return: true
+      ##申请连接检查，如果空闲时间大于timebetweenEvictionRunMillis，则检查执行连接检查是否有效validationInterval
+      test-while-idle: true
+      ##插件 stat 监控 wall 防止sql注入，slf4j日志
+      filter: stat,wail,slf4j
+#mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging: 
+  config: classpath:logback-spring.xml
+#  path: log

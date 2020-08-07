@@ -1,0 +1,27 @@
+server:
+  port: 8010
+spring:
+  application:
+    name: nacos-consumer
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: 42e2b200-fbef-4b2c-bfad-f70fc4094f68
+        group: CONSUMER_GROUP
+        
+dubbo:
+  application:
+    name: nacos-consumer
+    qos-enable: false
+  consumer:
+         # 设置超时时间
+    timeout: 4000
+  registry:
+    id: nacos-consumer
+    address: nacos://127.0.0.1:8848?namespace=42e2b200-fbef-4b2c-bfad-f70fc4094f68
+  cloud:
+         #用于服务消费方订阅服务提供方的应用名称的列表，若需订阅多应用，使用 "," 分割。不推荐使用默认值为 "*"，它将订阅所有应用。
+    subscribed-services: nacos-provider

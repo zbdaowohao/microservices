@@ -1,0 +1,15 @@
+server: 
+  port: 7001
+eureka:
+  #为了防止默认情况下将自己当做客户端来注册，所以我们要禁用
+  client:
+    register-with-eureka: false #表示是否将自己注册到Eureka Server上，默认为true
+    fetch-registry: false       #表示是否从Eureka Server上获取注册信息，默认为true
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka/
+  server:
+    enable-self-preservation: false
+spring:
+  application:
+    name: eureka
+
