@@ -10,6 +10,8 @@ public interface ProviderService extends IService<User> {
 	String getConfig();
 
 	String getInfo();
+	
+	String sleep();
 
 	List<User> getUserList();
 }

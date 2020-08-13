@@ -20,6 +20,11 @@ public class ConsumerController {
 		return providerService.getInfo();
 	}
 
+	@GetMapping("/sleep")
+	public String sleep() {
+		return providerService.sleep();
+	}
+
 	@GetMapping("/config")
 	public String getConfig() {
 		return providerService.getConfig();
