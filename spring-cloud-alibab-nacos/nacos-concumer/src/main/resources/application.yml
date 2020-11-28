@@ -11,6 +11,14 @@ spring:
         server-addr: 127.0.0.1:8848
         namespace: 42e2b200-fbef-4b2c-bfad-f70fc4094f68
         group: CONSUMER_GROUP
+    sentinel:
+      eager: true
+      auth:
+        enabled: true
+        username: sentinel
+        password: sentinel
+      transport:
+        dashboard: 127.0.0.1:8080
         
 dubbo:
   application:
