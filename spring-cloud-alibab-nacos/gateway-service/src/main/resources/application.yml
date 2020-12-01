@@ -1,5 +1,5 @@
 server:
-  port: 8012
+  port: 8011
 
 spring:
   application:
@@ -11,7 +11,7 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848 # 配置Nacos地址
         namespace: 42e2b200-fbef-4b2c-bfad-f70fc4094f68
-        group: GATEWAY_GROUP
+        group: NACOS_GROUP
     gateway:
       discovery:
         locator:
@@ -20,7 +20,7 @@ spring:
                       # 服务名小写
           lower-case-service-id: true
       routes:
-                 # 自定义的路由id,保持唯一
+        # http://localhost:8011/guonei
       - id: forward-route
         # uri:目标服务地址 uri: http://www.baidu.com
         # lb代表从注册中心获取服务，且已负载均衡方式转发 uri: lb://nacos-provider
@@ -29,10 +29,15 @@ spring:
         predicates:
         - Path=/guonei
         
-      - id: provider-route
-        uri: lb://nacos-provider
+        # http://localhost:8011/api-consumer/info
+        # http://localhost:8011/api-consumer/info?token=???开启tokenFilter用这个
+      - id: consumer-route
+        uri: lb://nacos-consumer
         predicates:
-        - Path=/info
+        - Path=/api-consumer/**
+        filters:
+        # StripPrefix:路径剥离，剥离个数1个 --->localhost:8011/api-consumer/info --->  localhost:8010/info
+        - StripPrefix=1
         
 # 暴露监控端点
 management:
